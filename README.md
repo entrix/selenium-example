@@ -1,5 +1,5 @@
 # selenium-example
-An example project of selenium using ChromeWebDriver, HtmlUnitDriver, FirefoxFriver
+A project of selenium using ChromeWebDriver to translate text via Google Translate
 
 
 ## Prerequisites ##
@@ -10,15 +10,27 @@ An example project of selenium using ChromeWebDriver, HtmlUnitDriver, FirefoxFri
 
 ## Execute automation tests ##
 
+Supported 
 ```bash
-mvn clean test
+mvn clean package
 ```
 
-The result looks as following:
+How to run:
+````text
+gwt-selenium [-usage] -webdriver-home <Web Driver Home> -webdriver-location=<Web Driver Location> [-f -t <filename>]+
+Order of arguments doesn't affect execution
+````
 
-![](./docs/img/autotests.gif)
+And then start translation from chinese to english? for example:
+```bash
+ java -Dfile.encoding=UTF-8 -jar gwt-selenium.jar -webdriver-home webdriver.chrome.driver -webdriver-location webdriver/chromedriver.exe -f CN -t EN file.txt
+```
 
+Translated text will be in the same folder:
 
+```text
+file.txtzh-CN.en.out
+```
 
 ## LICENSE ##
 

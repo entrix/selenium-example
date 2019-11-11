@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.MarionetteDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -33,7 +34,7 @@ public class ChromeDriverTest {
         //setup chromedriver
         System.setProperty(
                 "webdriver.chrome.driver",
-                "webdriver/chromedriver");
+                "webdriver/chromedriver.exe");
 
         testUrl = "https://leftstick.github.io/";
 
