@@ -11,7 +11,7 @@ public class Main {
     public static String WEBDRIVER_LOCATION = "webdriver/chromedriver.exe";
 
     private static void translateFile(LanguageCode sourceCode, LanguageCode targetCode, String filename) throws IOException {
-        try (Translator translator = new Translator(LanguageCode.CN, LanguageCode.EN)) {
+        try (Translator translator = new Translator(sourceCode, targetCode)) {
             try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename
                         .concat(sourceCode.getCode())
@@ -74,7 +74,7 @@ public class Main {
                     filename = args[i];
                 }
 
-                if (key == (0x1|0x2|0x4)) {
+                if (key == 0x7) {
                     translateFile(sourceCode, targetCode, filename);
                 }
             }
