@@ -48,7 +48,7 @@ public class Translator implements AutoCloseable {
             Thread.sleep(2000);
 
             try {
-                output = driver.findElementByXPath("//span[@lang=\"en\"]");
+                output = driver.findElementByXPath("//span[@lang=\"" + targetLangCode.getCode() + "\"]");
             }
             catch (Exception ex) {
                 log.error("cannot get element at //span[@lang=\"en\"]");

@@ -1,14 +1,19 @@
 package li.entrix.translate;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
+import java.util.Map;
 
 @Slf4j
 public class Main {
 
     public static String WEBDRIVER_HOME = "webdriver.chrome.driver";
     public static String WEBDRIVER_LOCATION = "webdriver/chromedriver.exe";
+
+    private static final ObjectMapper MAPPER =  new ObjectMapper();
 
     private static void translateFile(LanguageCode sourceCode, LanguageCode targetCode, String filename) throws IOException {
         try (Translator translator = new Translator(sourceCode, targetCode)) {
@@ -33,6 +38,19 @@ public class Main {
                     }
                 }
             }
+        }
+    }
+
+    private static void translateKibanaJSONFile(LanguageCode sourceCode, LanguageCode targetCode, String filename) throws IOException {
+        String parentDir = filename.replace(sourceCode.getCode().concat(".json"), "");
+        try (Translator translator = new Translator(sourceCode, targetCode)) {
+            Map<String, Object> configMap = MAPPER.readValue(new FileInputStream(filename), new TypeReference<Map<String, Object>>() {});
+            Map<String, Object> messagesMap = (Map<String, Object>) configMap.get("messages");
+
+            for (Map.Entry<String, Object> entry : messagesMap.entrySet()) {
+                if (entry.getValue() instanceof String) entry.setValue(translator.translate((String) entry.getValue()));
+            }
+            MAPPER.writeValue(new FileOutputStream(parentDir.concat(targetCode.getCode().concat(".json"))), configMap);
         }
     }
 
@@ -75,7 +93,7 @@ public class Main {
                 }
 
                 if (key == 0x7) {
-                    translateFile(sourceCode, targetCode, filename);
+                    translateKibanaJSONFile(sourceCode, targetCode, filename);
                 }
             }
         } catch (Exception ex) {
